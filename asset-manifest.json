@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/sasha_repeta_tasks/static/css/main.7acaea2f.css",
+    "main.js": "/sasha_repeta_tasks/static/js/main.07d3183d.js",
+    "index.html": "/sasha_repeta_tasks/index.html",
+    "main.7acaea2f.css.map": "/sasha_repeta_tasks/static/css/main.7acaea2f.css.map",
+    "main.07d3183d.js.map": "/sasha_repeta_tasks/static/js/main.07d3183d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7acaea2f.css",
+    "static/js/main.07d3183d.js"
+  ]
+}
