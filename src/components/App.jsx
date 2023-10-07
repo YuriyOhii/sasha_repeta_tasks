@@ -1,16 +1,20 @@
-export const App = () => {
-  return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      React homework template
-    </div>
-  );
-};
+import { PureComponent } from 'react'
+import { QuizForm } from './QuizForm';
+import { SearchBar } from './SearchBar';
+import { QuizList } from './QuizList';
+
+export class App extends PureComponent {
+  state={
+
+  };
+  render() {
+    return (
+      <>
+      <QuizForm/>
+      <SearchBar/>
+      <QuizList/>
+      </>
+    )
+  }
+}
+
