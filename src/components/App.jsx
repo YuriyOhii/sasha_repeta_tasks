@@ -14,6 +14,28 @@ export class App extends PureComponent {
     },
   };
 
+  componentDidMount() {
+    const savedParams = localStorage.getItem('searchParams');
+    if (savedParams !== null) {
+      const filter = JSON.parse(savedParams);
+      this.setState({ filter });
+    }
+  }
+
+  componentDidUpdate(_, pS) {
+    if (pS.filter !== this.state.filter) {
+      localStorage.setItem('searchParams', JSON.stringify(this.state.filter));
+    }
+  }
+
+  resetFilters = () =>
+    this.setState({
+      filter: {
+        search: '',
+        level: 'all',
+      },
+    });
+
   onSubmitQuizForm = values => {
     const newQuiz = { ...values, id: nanoid() };
     this.setState(s => ({ quizList: [newQuiz, ...s.quizList] }));
@@ -52,7 +74,7 @@ export class App extends PureComponent {
     return (
       <>
         <QuizForm onSubmit={this.onSubmitQuizForm} />
-        <SearchBar filter={filter} onChange={this.handleOnChangeSearch} />
+        <SearchBar filter={filter} onReset={this.resetFilters} onChange={this.handleOnChangeSearch} />
         <QuizList
           quizList={this.getFilteredQuizes()}
           onClick={this.deleteQuiz}
