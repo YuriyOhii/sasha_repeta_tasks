@@ -1,7 +1,7 @@
 import {} from './SearchBar.styled';
 import PropTypes from 'prop-types';
 
-export const SearchBar = ({ filter: { search, level }, onChange, onReset}) => {
+export const SearchBar = ({ filter: { search, level }, onChange, onReset }) => {
   return (
     <div>
       <input
@@ -21,8 +21,9 @@ export const SearchBar = ({ filter: { search, level }, onChange, onReset}) => {
         <option value="intermediate">intermediate</option>
         <option value="advanced">advanced</option>
       </select>
-      <button type='button' onClick={onReset}>Reset filters</button>
-      
+      <button type="button" onClick={onReset}>
+        Reset filters
+      </button>
     </div>
   );
 };

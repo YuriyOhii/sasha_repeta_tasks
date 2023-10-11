@@ -74,7 +74,11 @@ export class App extends PureComponent {
     return (
       <>
         <QuizForm onSubmit={this.onSubmitQuizForm} />
-        <SearchBar filter={filter} onReset={this.resetFilters} onChange={this.handleOnChangeSearch} />
+        <SearchBar
+          filter={filter}
+          onReset={this.resetFilters}
+          onChange={this.handleOnChangeSearch}
+        />
         <QuizList
           quizList={this.getFilteredQuizes()}
           onClick={this.deleteQuiz}

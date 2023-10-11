@@ -19,6 +19,10 @@ export const Quiz = styled.div`
     }};
 `;
 
+export const Topic = styled.h2`
+  cursor: pointer;
+`;
+
 export const DelQuizBtn = styled.button`
   position: absolute;
   top: ${({ theme }) => theme.spacing(2)};
@@ -33,6 +37,8 @@ export const DelQuizBtn = styled.button`
 
   cursor: pointer;
 `;
+
+export const CloseModalBtn = styled(DelQuizBtn)``;
 
 export const InfoWrapper = styled.div`
   display: flex;
