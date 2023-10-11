@@ -1,17 +1,17 @@
-import {} from './QuizList.styled';
+import { List, Quiz } from './QuizList.styled';
 import PropTypes from 'prop-types';
 import { QuizItem } from 'components/QuizItem';
 
 export const QuizList = ({ quizList, onClick }) => {
   return (
     <>
-      <ul>
+      <List>
         {quizList.map(quiz => (
-          <li key={quiz.id}>
+          <Quiz key={quiz.id}>
             <QuizItem item={quiz} onClick={onClick} />
-          </li>
+          </Quiz>
         ))}
-      </ul>
+      </List>
     </>
   );
 };

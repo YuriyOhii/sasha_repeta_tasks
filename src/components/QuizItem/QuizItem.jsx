@@ -1,17 +1,23 @@
-import {} from './QuizItem.styled';
+import { Quiz, DelQuizBtn, InfoWrapper, Info } from './QuizItem.styled';
 import PropTypes from 'prop-types';
+import { BsTrash3Fill } from 'react-icons/bs';
 
-export const QuizItem = ({ item: { topic, level, time, questions, id }, onClick }) => {
+export const QuizItem = ({
+  item: { topic, level, time, questions, id },
+  onClick,
+}) => {
   return (
-    <>
+    <Quiz $level={level}>
       <h2>{topic}</h2>
-      <div>
-        <p>Level: {level}</p>
-        <p>Time: {time}min</p>
-        <p>Questions: {questions}</p>
-      </div>
-      <button type='button' onClick={()=>onClick(id)}>Delete</button>
-    </>
+      <InfoWrapper>
+        <Info $color="red">Level: {level}</Info>
+        <Info $color="blue">Time: {time}min</Info>
+        <Info $color="grey">Questions: {questions}</Info>
+      </InfoWrapper>
+      <DelQuizBtn type="button" onClick={() => onClick(id)}>
+        <BsTrash3Fill />
+      </DelQuizBtn>
+    </Quiz>
   );
 };
 
