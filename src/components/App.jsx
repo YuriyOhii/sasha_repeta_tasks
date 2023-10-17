@@ -1,29 +1,46 @@
 import { PureComponent } from 'react';
 import { QuizForm } from './QuizForm';
 import { SearchBar } from './SearchBar';
+import { ErrorNotice } from './Error';
 import { QuizList } from './QuizList';
-import data from '../data.json';
-import { nanoid } from 'nanoid';
+import { getQuizes, addQuiz, dltQuiz } from './services/api';
+import { Toaster, toast } from 'react-hot-toast';
+import {Audio} from 'react-loader-spinner';
 
 export class App extends PureComponent {
   state = {
-    quizList: data,
+    loading: false,
+    error: null,
+    quizList: [],
     filter: {
       search: '',
       level: 'all',
     },
   };
 
-  componentDidMount() {
-    const savedParams = localStorage.getItem('searchParams');
-    if (savedParams !== null) {
-      const filter = JSON.parse(savedParams);
-      this.setState({ filter });
+  async componentDidMount() {
+    try {
+      this.setState({ loading: true, error: null });
+      const quizList = await getQuizes();
+      if (quizList.length > 0) {
+        this.setState({ quizList });
+        toast.success('Fetched successfully!');
+      }
+
+      const savedParams = localStorage.getItem('searchParams');
+      if (savedParams !== null) {
+        const filter = JSON.parse(savedParams);
+        this.setState({ filter });
+      }
+    } catch (error) {
+      this.setState({ error });
+    } finally {
+      this.setState({ loading: false });
     }
   }
 
-  componentDidUpdate(_, pS) {
-    if (pS.filter !== this.state.filter) {
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.filter !== this.state.filter) {
       localStorage.setItem('searchParams', JSON.stringify(this.state.filter));
     }
   }
@@ -36,9 +53,17 @@ export class App extends PureComponent {
       },
     });
 
-  onSubmitQuizForm = values => {
-    const newQuiz = { ...values, id: nanoid() };
-    this.setState(s => ({ quizList: [newQuiz, ...s.quizList] }));
+  onSubmitQuizForm = async values => {
+    try {
+      this.setState({ loading: true, error: null });
+      const newQuiz = await addQuiz(values);
+      this.setState(state => ({ quizList: [newQuiz, ...state.quizList] }));
+      toast.success('Added successfully!');
+    } catch (error) {
+      this.setState({ error });
+    } finally {
+      this.setState({ loading: false });
+    }
   };
 
   handleOnChangeSearch = (key, value) => {
@@ -63,26 +88,52 @@ export class App extends PureComponent {
     return filteredQuizes;
   };
 
-  deleteQuiz = id =>
-    this.setState(prevState => ({
-      quizList: prevState.quizList.filter(el => el.id !== id),
-    }));
+  deleteQuiz = async id => {
+    try {
+      this.setState({ loading: true, error: null });
+      const deletedQuiz = await dltQuiz(id);
+      console.log(deletedQuiz);
+      this.setState(state => ({
+        quizList: state.quizList.filter(el => deletedQuiz.id !== el.id),
+      }));
+      toast.success('Deleted successfully!');
+    } catch (error) {
+      this.setState({ error });
+    } finally {
+      this.setState({ loading: false });
+    }
+  };
 
   render() {
-    const { filter } = this.state;
+    const { filter, error, quizList, loading } = this.state;
 
     return (
       <>
+        <Toaster position="top-center" reverseOrder={false} />
         <QuizForm onSubmit={this.onSubmitQuizForm} />
         <SearchBar
           filter={filter}
           onReset={this.resetFilters}
           onChange={this.handleOnChangeSearch}
         />
-        <QuizList
-          quizList={this.getFilteredQuizes()}
-          onClick={this.deleteQuiz}
-        />
+        {loading && (
+          <div>
+            <Audio
+              height="80"
+              width="80"
+              radius="9"
+              color="black"
+              ariaLabel="loading"
+            />
+          </div>
+        )}
+        {error && <ErrorNotice errorMessage={error.message} />}
+        {quizList.length > 0 && (
+          <QuizList
+            quizList={this.getFilteredQuizes()}
+            onClick={this.deleteQuiz}
+          />
+        )}
       </>
     );
   }
