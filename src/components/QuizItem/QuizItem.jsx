@@ -27,7 +27,7 @@ export const QuizItem = ({
   item: { level, topic, time, questions, id },
   onClick,
 }) => {
-  const { isModalOpen, setIsModalOpen } = useState(false);
+  const [ isModalOpen, setIsModalOpen ] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
 

@@ -11,23 +11,27 @@ export const App = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [quizList, setQuizList] = useState([]);
-  const [filter, setFilter] = useState(() => {
-    const savedParams = localStorage.getItem('searchParams');
-    if (savedParams !== null) return JSON.parse(savedParams);
-    return {
-      search: '',
-      level: 'all',
-    };
+  const [filter, setFilter] = useState({
+    search: '',
+    level: 'all',
   });
+
+  useEffect(() => {
+    const savedParams = localStorage.getItem('searchParams');
+    if (savedParams !== null) {
+      const filter = JSON.parse(savedParams);
+      setFilter({ filter });
+    }
+  }, []);
 
   useEffect(() => {
     const quizes = async () => {
       try {
         setError(null);
         setLoading(true);
-        const quizItems = await getQuizes();
-        if (quizItems.length > 0) {
-          setQuizList(quizItems);
+        const quizList = await getQuizes();
+        if (quizList.length > 0) {
+          setQuizList(quizList);
           toast.success('Fetched successfully!');
         }
       } catch (error) {
@@ -36,11 +40,10 @@ export const App = () => {
         setLoading(false);
       }
     };
-    quizes();
-  }, []);
+  });
 
   useEffect(() => {
-    localStorage.setItem('searchParams', JSON.stringify(filter));
+    localStorage.setItem('searchParams', JSON.stringify(this.state.filter));
   }, [filter]);
 
   const resetFilters = () =>
@@ -56,7 +59,7 @@ export const App = () => {
       setLoading(true);
       setError(null);
       const newQuiz = await addQuiz(values);
-      setQuizList(prevState => [newQuiz, ...prevState]);
+      setQuizList(state => [newQuiz, ...state.quizList]);
       toast.success('Added successfully!');
     } catch (error) {
       setError(error);
@@ -88,9 +91,9 @@ export const App = () => {
       setLoading(true);
       setError(null);
       const deletedQuiz = await dltQuiz(id);
-      setQuizList(state =>
-        state.filter(el => deletedQuiz.id !== el.id)
-      );
+      setQuizList(state => ({
+        quizList: state.quizList.filter(el => deletedQuiz.id !== el.id),
+      }));
       toast.success('Deleted successfully!');
     } catch (error) {
       setError(error);
@@ -99,30 +102,29 @@ export const App = () => {
     }
   };
 
-  return (
-    <>
-      <Toaster position="top-center" reverseOrder={false} />
-      <QuizForm onSubmit={onSubmitQuizForm} />
-      <SearchBar
-        filter={filter}
-        onReset={resetFilters}
-        onChange={handleOnChangeSearch}
-      />
-      {loading && (
-        <div>
-          <Audio
-            height="80"
-            width="80"
-            radius="9"
-            color="black"
-            ariaLabel="loading"
-          />
-        </div>
-      )}
-      {error && <ErrorNotice errorMessage={error.message} />}
-      {quizList.length > 0 && (
-        <QuizList quizList={getFilteredQuizes()} onClick={deleteQuiz} />
-      )}
-    </>
-  );
+  return;
+  <>
+    <Toaster position="top-center" reverseOrder={false} />
+    <QuizForm onSubmit={onSubmitQuizForm} />
+    <SearchBar
+      filter={filter}
+      onReset={resetFilters}
+      onChange={handleOnChangeSearch}
+    />
+    {loading && (
+      <div>
+        <Audio
+          height="80"
+          width="80"
+          radius="9"
+          color="black"
+          ariaLabel="loading"
+        />
+      </div>
+    )}
+    {error && <ErrorNotice errorMessage={error.message} />}
+    {quizList.length > 0 && (
+      <QuizList quizList={getFilteredQuizes()} onClick={deleteQuiz} />
+    )}
+  </>;
 };
