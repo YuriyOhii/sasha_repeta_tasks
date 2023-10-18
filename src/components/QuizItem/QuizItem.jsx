@@ -7,7 +7,7 @@ import {
   CloseModalBtn,
 } from './QuizItem.styled';
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { useState } from 'react';
 import { BsTrash3Fill } from 'react-icons/bs';
 import Modal from 'react-modal';
 
@@ -23,55 +23,50 @@ const customStyles = {
   },
 };
 
-export class QuizItem extends PureComponent {
-  static propTypes = {
-    item: PropTypes.exact({
-      id: PropTypes.string.isRequired,
-      topic: PropTypes.string.isRequired,
-      level: PropTypes.string.isRequired,
-      time: PropTypes.number.isRequired,
-      questions: PropTypes.number.isRequired,
-    }),
-    onClick: PropTypes.func.isRequired,
-  };
+export const QuizItem = ({
+  item: { level, topic, time, questions, id },
+  onClick,
+}) => {
+  const { isModalOpen, setIsModalOpen } = useState(false);
 
-  state = {
-    isModalOpen: false,
-  };
+  const openModal = () => setIsModalOpen(true);
 
-  openModal = () => this.setState({ isModalOpen: true });
+  const closeModal = () => setIsModalOpen(false);
 
-  closeModal = () => this.setState({ isModalOpen: false });
+  Modal.setAppElement('#root');
 
-  render() {
-    Modal.setAppElement('#root');
-    const {
-      item: { level, topic, time, questions, id },
-      onClick,
-    } = this.props;
-    const { isModalOpen } = this.state;
-    return (
-      <Quiz $level={level}>
-        <Topic onClick={this.openModal}>{topic}</Topic>
-        <InfoWrapper>
-          <Info $color="red">Level: {level}</Info>
-          <Info $color="blue">Time: {time}min</Info>
-          <Info $color="grey">Questions: {questions}</Info>
-        </InfoWrapper>
-        <DelQuizBtn type="button" onClick={() => onClick(id)}>
-          <BsTrash3Fill />
-        </DelQuizBtn>
-        <Modal
-          isOpen={isModalOpen}
-          onRequestClose={this.closeModal}
-          style={customStyles}
-          contentLabel="Example Modal"
-        >
-          <h2>{topic}</h2>
-          <CloseModalBtn onClick={this.closeModal}>close</CloseModalBtn>
-          <div>I am a modal</div>
-        </Modal>
-      </Quiz>
-    );
-  }
-}
+  return (
+    <Quiz $level={level}>
+      <Topic onClick={openModal}>{topic}</Topic>
+      <InfoWrapper>
+        <Info $color="red">Level: {level}</Info>
+        <Info $color="blue">Time: {time}min</Info>
+        <Info $color="grey">Questions: {questions}</Info>
+      </InfoWrapper>
+      <DelQuizBtn type="button" onClick={() => onClick(id)}>
+        <BsTrash3Fill />
+      </DelQuizBtn>
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <h2>{topic}</h2>
+        <CloseModalBtn onClick={closeModal}>close</CloseModalBtn>
+        <div>I am a modal</div>
+      </Modal>
+    </Quiz>
+  );
+};
+
+QuizItem.propTypes = {
+  item: PropTypes.exact({
+    id: PropTypes.string.isRequired,
+    topic: PropTypes.string.isRequired,
+    level: PropTypes.string.isRequired,
+    time: PropTypes.number.isRequired,
+    questions: PropTypes.number.isRequired,
+  }),
+  onClick: PropTypes.func.isRequired,
+};
