@@ -1,12 +1,12 @@
 import { AddForm, Input, ErrorNote, AddQuizBtn } from './QuizForm.styled';
 import PropTypes from 'prop-types';
-import { Formik } from 'formik';
+import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 
 const initialValues = {
   questions: 0,
   time: 0,
-  level: 'beginner',
+  level: '',
   topic: '',
 };
 
@@ -25,6 +25,7 @@ export const QuizForm = ({ onSubmit }) => {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={(values, { resetForm }) => {
+        console.log(values);
         onSubmit(values);
         resetForm();
       }}
@@ -51,11 +52,11 @@ export const QuizForm = ({ onSubmit }) => {
         </label>
         <label>
           Level
-          <Input as="select" name="level">
+          <Field as="select" name="level">
             <option value="beginner">Beginner</option>
             <option value="intermediate">Intermediate</option>
             <option value="advanced">Advanced</option>
-          </Input>
+          </Field>
           <ErrorNote name="level" component={'div'} />
         </label>
         <AddQuizBtn type="submit">Add quiz</AddQuizBtn>

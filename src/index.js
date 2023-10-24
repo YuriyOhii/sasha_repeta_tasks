@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { App } from 'components/App';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStiles } from 'components/GlobalStiles';
-import { Layout } from 'components/Layout.styled';
+import { BrowserRouter } from 'react-router-dom';
 
 const theme = {
   colors: {
@@ -26,11 +26,11 @@ const theme = {
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Layout>
+    <BrowserRouter>
       <ThemeProvider theme={theme}>
         <App />
         <GlobalStiles />
       </ThemeProvider>
-    </Layout>
+    </BrowserRouter>
   </React.StrictMode>
 );
