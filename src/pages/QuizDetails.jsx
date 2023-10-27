@@ -1,15 +1,20 @@
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
+
 import { getQuizeById } from '../components/services/api';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import { Audio } from 'react-loader-spinner';
 import { ErrorNotice } from '../components/Error/Error';
+import { BackLink } from 'components/BackLink/Backlink';
 
 export default function QuizDetails() {
   const { quizId } = useParams();
   const [quiz, setQuiz] = useState(0);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const location = useLocation();
+  const backLink = location.state?.from ?? '/quizzes';
 
   useEffect(() => {
     const getDetails = async () => {
@@ -32,7 +37,7 @@ export default function QuizDetails() {
 
   return (
     <div>
-      {' '}
+      <BackLink link={backLink}>Back to quizzes</BackLink>
       {loading && (
         <div>
           <Audio

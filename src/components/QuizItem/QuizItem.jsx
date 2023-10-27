@@ -1,15 +1,16 @@
 import { Quiz, DelQuizBtn, InfoWrapper, Info, Topic } from './QuizItem.styled';
 import PropTypes from 'prop-types';
 import { BsTrash3Fill } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export const QuizItem = ({
   item: { level, topic, time, questions, id },
   onClick,
 }) => {
+  const location = useLocation();
   return (
     <Quiz $level={level}>
-      <Link to={`/quizzes/${id}`}>
+      <Link to={`/quizzes/${id}`} state={{ from: location }}>
         <Topic>{topic}</Topic>
       </Link>
       <InfoWrapper>

@@ -4,6 +4,7 @@ import { Audio } from 'react-loader-spinner';
 import { ErrorNotice } from '../components/Error/Error';
 import { addQuiz } from '../components/services/api';
 import { toast } from 'react-hot-toast';
+import { BackLink } from 'components/BackLink/Backlink';
 
 export default function CreateQuiz() {
   const [loading, setLoading] = useState(false);
@@ -23,6 +24,7 @@ export default function CreateQuiz() {
   };
   return (
     <div>
+      <BackLink link={'/quizzes'}>to Quizzes</BackLink>
       <QuizForm onSubmit={onSubmitQuizForm} />
       {error && <ErrorNotice errorMessage={error.message} />}
       {loading && (
