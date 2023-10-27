@@ -1,7 +1,7 @@
-import { QuizForm } from '../components/QuizForm';
+import { QuizForm } from '../components/QuizForm/QuizForm';
 import { useState } from 'react';
 import { Audio } from 'react-loader-spinner';
-import { ErrorNotice } from '../components/Error';
+import { ErrorNotice } from '../components/Error/Error';
 import { addQuiz } from '../components/services/api';
 import { toast } from 'react-hot-toast';
 

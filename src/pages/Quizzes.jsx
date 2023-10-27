@@ -1,7 +1,7 @@
 import { Audio } from 'react-loader-spinner';
-import { SearchBar } from '../components/SearchBar';
-import { ErrorNotice } from '../components/Error';
-import { QuizList } from '../components/QuizList';
+import { SearchBar } from '../components/SearchBar/SearchBar';
+import { ErrorNotice } from '../components/Error/Error';
+import { QuizList } from '../components/QuizList/QuizList';
 import { useState, useEffect } from 'react';
 import { getQuizes, dltQuiz } from '../components/services/api';
 import { toast } from 'react-hot-toast';

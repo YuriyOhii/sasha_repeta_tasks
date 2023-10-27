@@ -1,6 +1,6 @@
 import { List, Quiz } from './QuizList.styled';
 import PropTypes from 'prop-types';
-import { QuizItem } from 'components/QuizItem';
+import { QuizItem } from 'components/QuizItem/QuizItem';
 
 export const QuizList = ({ quizList, onClick }) => {
   return (

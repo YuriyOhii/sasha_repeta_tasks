@@ -3,7 +3,7 @@ import { getQuizeById } from '../components/services/api';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import { Audio } from 'react-loader-spinner';
-import { ErrorNotice } from '../components/Error';
+import { ErrorNotice } from '../components/Error/Error';
 
 export default function QuizDetails() {
   const { quizId } = useParams();
