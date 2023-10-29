@@ -5,19 +5,15 @@ import { QuizList } from '../components/QuizList/QuizList';
 import { useState, useEffect } from 'react';
 import { getQuizes, dltQuiz } from '../components/services/api';
 import { toast } from 'react-hot-toast';
-import { useSearchParams } from 'react-router-dom';
+import { useFilters } from 'hooks/useFilters';
 
 export default function Quizzes() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [quizList, setQuizList] = useState([]);
-  const [params, setParams] = useSearchParams();
 
-  const filter = Object.fromEntries([...params]);
-  const setFilters = (key, value) => {
-    params.set(`${key}`, value);
-    setParams(params);
-  };
+  const { search, level } = useFilters();
+  console.log(search, level);
 
   useEffect(() => {
     const quizes = async () => {
@@ -38,20 +34,14 @@ export default function Quizzes() {
     quizes();
   }, []);
 
-  const resetFilters = () =>
-    setParams({
-      search: '',
-      level: 'all',
-    });
-
   const getFilteredQuizes = () => {
-    const normalizedSearch = filter.search.toLowerCase();
+    const normalizedSearch = search.toLowerCase();
     const filteredBySearch = quizList.filter(({ topic }) =>
       topic.toLowerCase().includes(normalizedSearch)
     );
     const filteredQuizes = filteredBySearch.filter(el => {
-      if (filter.level === 'all') return true;
-      return el.level === filter.level;
+      if (level === 'all') return true;
+      return el.level === level;
     });
     return filteredQuizes;
   };
@@ -72,7 +62,7 @@ export default function Quizzes() {
 
   return (
     <div>
-      <SearchBar filter={filter} onReset={resetFilters} onChange={setFilters} />
+      <SearchBar />
       {loading && (
         <div>
           <Audio
