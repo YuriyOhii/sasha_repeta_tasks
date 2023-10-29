@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { NavigationLink, Container, NavigationList } from './Layout.styled';
+import { Suspense } from 'react';
 
 export const Layout = () => {
   return (
@@ -22,7 +23,10 @@ export const Layout = () => {
           </NavigationList>
         </nav>
       </header>
-      <Outlet />
+      <Suspense fallback={<div>LOADING...</div>}>
+        <Outlet />
+      </Suspense>
+
       <Toaster position="top-center" reverseOrder={false} />
     </Container>
   );

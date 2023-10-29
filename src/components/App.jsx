@@ -1,10 +1,11 @@
-import CreateQuiz from 'pages/CreateQuiz';
-import Homepage from 'pages/Homepage';
-import NotFound from 'pages/NotFound';
-import QuizDetails from 'pages/QuizDetails';
-import Quizzes from 'pages/Quizzes';
+import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Layout } from '../components/Layout/Layout';
+const Homepage = lazy(() => import('pages/Homepage'));
+const NotFound = lazy(() => import('pages/NotFound'));
+const QuizDetails = lazy(() => import('pages/QuizDetails'));
+const Quizzes = lazy(() => import('pages/Quizzes'));
+const CreateQuiz = lazy(() => import('pages/CreateQuiz'));
 
 export function App() {
   return (
