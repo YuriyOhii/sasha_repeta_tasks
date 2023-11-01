@@ -1,9 +1,14 @@
-export const withdraw = () => ({
+export const withdraw = value => ({
   type: 'balance/withdraw',
-  payload: 10,
+  payload: value,
 });
 
-export const deposit = () => ({
+export const deposit = value => ({
   type: 'balance/deposit',
-  payload: 10,
+  payload: value,
+});
+
+export const setLang = lang => ({
+  type: 'lang/setLang',
+  payload: lang,
 });
