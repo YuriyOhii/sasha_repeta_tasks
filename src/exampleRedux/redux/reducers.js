@@ -1,11 +1,9 @@
-import { combineReducers } from 'redux';
-
 const initAccount = {
   balance: 500,
   name: 'yura',
 };
 
-const reducerAccount = (state = initAccount, action) => {
+export const reducerAccount = (state = initAccount, action) => {
   switch (action.type) {
     case 'balance/withdraw':
       return {
@@ -24,7 +22,7 @@ const reducerAccount = (state = initAccount, action) => {
 
 const initLang = 'en';
 
-const reducerLang = (state = initLang, action) => {
+export const reducerLang = (state = initLang, action) => {
   switch (action.type) {
     case 'lang/setLang':
       return (state = action.payload);
@@ -34,7 +32,3 @@ const reducerLang = (state = initLang, action) => {
   }
 };
 
-export const rootReducier = combineReducers({
-  account: reducerAccount,
-  lang: reducerLang,
-});
