@@ -1,14 +1,5 @@
-export const withdraw = value => ({
-  type: 'balance/withdraw',
-  payload: value,
-});
+import { createAction } from '@reduxjs/toolkit';
 
-export const deposit = value => ({
-  type: 'balance/deposit',
-  payload: value,
-});
-
-export const setLang = lang => ({
-  type: 'lang/setLang',
-  payload: lang,
-});
+export const withdraw = createAction('balance/withdraw');
+export const deposit = createAction('balance/deposit');
+export const setLang = createAction('lang/setLang');
