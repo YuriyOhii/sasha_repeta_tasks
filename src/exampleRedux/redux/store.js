@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { accountReducer, langReducer } from './reducers';
+import { accountReducer } from './accountSlice';
+import { langReducer } from './langSlice';
 
 export const store = configureStore({
   reducer: {

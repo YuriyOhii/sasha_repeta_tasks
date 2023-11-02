@@ -1,4 +1,4 @@
-import { deposit, withdraw } from 'exampleRedux/redux/actions';
+import { deposit, withdraw } from 'exampleRedux/redux/accountSlice';
 import { getBalance } from 'exampleRedux/redux/selectors';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';

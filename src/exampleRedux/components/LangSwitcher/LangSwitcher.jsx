@@ -1,4 +1,4 @@
-import { setLang } from 'exampleRedux/redux/actions';
+import { setLang } from 'exampleRedux/redux/langSlice';
 import { getLang } from 'exampleRedux/redux/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 
